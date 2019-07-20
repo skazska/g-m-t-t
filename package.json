@@ -1,0 +1,20 @@
+{
+  "name": "global-minds-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "author": "skazska@gmail.com",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "config": "^3.2.1",
+    "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
+    "koa-convert": "^1.2.0",
+    "koa-jwt": "^3.6.0",
+    "koa-router": "^7.4.0"
+  }
+}
