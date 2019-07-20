@@ -16,5 +16,11 @@
     "koa-convert": "^1.2.0",
     "koa-jwt": "^3.6.0",
     "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.2.0",
+    "superkoa": "^1.0.3"
   }
 }

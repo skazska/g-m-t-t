@@ -4,15 +4,13 @@
  * etc.
  */
 
-import { MemoryStorage as Store } from '../storage/memory';
-
-export default class PBRCrud {
+class PBRCrud {
 
     /**
-     * @param {string} user
+     * @param user
      */
-    constructor (user) {
-        this._user = user;
+    constructor (storage) {
+        this._store = storage;
     }
     
     /**
@@ -25,7 +23,7 @@ export default class PBRCrud {
      * @return {Promise<*[]>}
      */
     list (options) {
-        return Store.get({user: this._user}).list(options || {});
+        return this._store.list(options || {});
     }
 
     /**
@@ -35,7 +33,7 @@ export default class PBRCrud {
      * @return {*}
      */
     get (name) {
-        return Store.get({user: this._user}).get({name: name});
+        return this._store.get({name: name});
     }
 
     /**
@@ -45,11 +43,24 @@ export default class PBRCrud {
      * @return {Promise<IDBValidKey | void>}
      */
     async create (rec) {
-        const store = Store.get({user: this._user});
         // check if record exists
-        let existing = store.get({name: rec.name});
-        if (existing) throw new Error('record exists!');
-        return await store.put(rec);
+        // expect that get will throw 'not found
+        let existing;
+        try {
+            // get can throw 'not found'
+            existing = await this._store.get({name: rec.name});
+
+            // if not thrown, then it could exist already
+            if (existing) throw new Error('record exists');
+        } catch (e) {
+            // if get thrown 'not found' - put item
+            if (e.message === 'not found') {
+                return this._store.put({name: rec.name}, rec);
+            }
+
+            // rethrow error other than 'not found'
+            throw e;
+        }
     }
 
     /**
@@ -59,16 +70,20 @@ export default class PBRCrud {
      * @return {Promise<IDBValidKey | void>}
      */
     async update (name, rec) {
-        const store = Store.get({user: this._user});
         // check if record exists
-        let existing = store.get({name: name});
-        if (!existing) throw new Error('record not found');
+        await this._store.get({name: name});
         if (!rec.name) rec.name = name;
-        return await store.put(rec);
+        return this._store.put({name: name}, rec);
     }
 
+    /**
+     * deletes record by name
+     * @param name
+     * @return {*}
+     */
     delete (name) {
-        return Store.get({user: this._user}).delete({name: name});
+        return this._store.delete({name: name});
     }
 }
 
+module.exports = PBRCrud;

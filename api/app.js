@@ -1,9 +1,7 @@
-import Koa from 'koa';
-import config from 'config';
-import err from './middleware/error';
-import {routes, allowedMethods} from './middleware/routes';
-
+const Koa = require('koa');
+const err = require('./middleware/error');
 const app = new Koa();
+const {routes, allowedMethods} = require('./middleware/routes');
 
 // https://github.com/koajs/jwt
 // var jwt = require('koa-jwt');
@@ -31,17 +29,15 @@ const app = new Koa();
 // // Middleware below this line is only reached if JWT token is valid
 // app.use(jwt({ secret: 'shared-secret' }));
 
+app.use(err);
 
 // TODO instead of authentication
-app.use((ctx, next) => {
+app.use(async (ctx, next) => {
     ctx.state.user = 'shared';
-    next();
+    await next();
 });
 
-app.use(err);
 app.use(routes());
-app.use(allowedMethods());
+// app.use(allowedMethods());
 
-app.listen(config.server.port, function () {
-    console.log('%s listening at port %d', config.app.name, config.server.port);
-});
+module.exports = app;

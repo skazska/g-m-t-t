@@ -4,6 +4,8 @@
  * Can't be used for production, without strong limitations
  */
 
+Storage = require('../storage');
+
 /**
  * storage array
  * @type {MemoryStorage[]}
@@ -17,9 +19,10 @@ const storage = [];
  * list, get, put, delete
  * actually think of it as interface for any storage implementation
  */
-export class MemoryStorage {
+class MemoryStorage extends Storage {
 
-    constructor () {
+    constructor (options) {
+        super(options);
         this._data = [];
     }
 
@@ -60,12 +63,15 @@ export class MemoryStorage {
      * @return {*}
      */
     get (condition) {
-        // find item and return it's clone
-        return Object.assign(this._data.find(item => {
+        const item = this._data.find(item => {
+            if (!item) return false;
+
             return Object.keys(condition).every(key => {
                 return condition[key] === item[key];
             })
-        }));
+        });
+        if (!item) throw new Error('not found');
+        return Promise.resolve(item);
     }
 
     /**
@@ -73,12 +79,23 @@ export class MemoryStorage {
      * @param {object} condition
      * @param {object} newItem
      */
-    put (condition, newItem) {
+    async put (condition, newItem) {
         // remove item by condition
-        this.delete(condition);
+        let index;
+        try {
+            index = await this.delete(condition);
+        } catch (e) {
+            if (e.message !== 'not found') throw e;
+        }
 
         // insert new
-        this._data.push(newItem);
+        if (index || index === 0) {
+            this._data[index] = newItem;
+        } else {
+            this._data.push(newItem);
+        }
+
+        return Promise.resolve(newItem);
     }
 
     /**
@@ -91,9 +108,9 @@ export class MemoryStorage {
                 return condition[key] === item[key];
             })
         });
-        if (index || index === 0) {
+        if (index >= 0) {
             delete this._data[index];
-            return Promise.resolve(true);
+            return Promise.resolve(index);
         } else {
             throw new Error('not found');
         }
@@ -112,3 +129,4 @@ export class MemoryStorage {
     }
 }
 
+module.exports = MemoryStorage;
