@@ -1,0 +1,23 @@
+<div class="app-content">
+  <h2>List <mat-progress-spinner *ngIf="loadingIndicator"></mat-progress-spinner></h2>
+  <div [ngSwitch]="status" class="app-phone-list">
+    <div *ngSwitchCase="'error'" class="app-phone-list__data_error">
+      {{error}}
+    </div>
+    <mat-action-list *ngSwitchCase="'data'" class="app-phone-list-items">
+      <mat-list-item *ngFor="let phone of phones" [routerLink]="['/edit', phone.name]">
+        <mat-icon mat-list-icon>phone</mat-icon>
+        <div mat-line class="app-phone-list-item__info">
+          <div class="app-phone-list-item__name">{{phone.name}}</div>
+          <div class="app-phone-list-item__phone">{{phone.phone}}</div>
+        </div>
+
+        <button *ngIf="!phone.remove" mat-mini-fab (click)="erase($event, phone)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button *ngIf="phone.remove" mat-stroked-button color="warn" (click)="erase($event, phone)">Sure?</button>
+
+      </mat-list-item>
+    </mat-action-list>
+  </div>
+</div>
