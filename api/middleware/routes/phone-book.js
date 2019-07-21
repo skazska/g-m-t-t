@@ -9,6 +9,7 @@ const convert = require('koa-convert');
 const KoaBody = require('koa-body');
 
 const koaBody = convert(KoaBody());
+const koaBodyMultipart = convert(KoaBody({ multipart: true }));
 const router = new Router();
 
 // TODO implement route controllers, and backend-frontend models and data validation
@@ -38,7 +39,7 @@ router
         ctx.status = 204;
         await ctx.state.pbrModel.delete(ctx.params.name);
     })
-    .post('upload-file', '/file', async (ctx) => {
+    .post('upload-file', '/file', koaBodyMultipart, async (ctx) => {
         // process uploaded file
         const file = ctx.request.files.file;
 

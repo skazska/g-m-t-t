@@ -1,6 +1,8 @@
+const path = require('path');
 const Koa = require('koa');
 const cors = require('koa-cors');
-const koaBody = require('koa-body');
+// const serve = require('koa-static');
+
 const convert = require('koa-convert');
 
 const err = require('./middleware/error');
@@ -8,7 +10,6 @@ const app = new Koa();
 const {routes, allowedMethods} = require('./middleware/routes');
 
 app.use(convert(cors({origin: '*'})));
-app.use(koaBody({ multipart: true }));
 
 app.use(err);
 
@@ -45,5 +46,9 @@ app.use(async (ctx, next) => {
 
 app.use(routes());
 // app.use(allowedMethods());
+
+// serve files from ./public
+// app.use(serve(path.join(__dirname, '../front/dist/front')));
+
 
 module.exports = app;
