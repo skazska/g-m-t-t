@@ -1,11 +1,24 @@
 <div class="app-content">
   <h2 class="app-header">
-    <button routerLink="/add" mat-mini-fab isIconButton="true" isRoundButton="true"><mat-icon>add</mat-icon></button>
+    <button routerLink="/add" mat-mini-fab color="primary">
+      <mat-icon>add</mat-icon>
+    </button>
     <span class="app-header__title">List</span>
+
+    <!--TODO redesign to filedrop-->
+    <input *ngIf="uploadFile" type="file" ng2FileSelect [uploader]="uploader">
+    <button mat-mini-fab (click)="upload()" color="disabled">
+      <mat-icon *ngIf="!uploadFile">cloud_upload</mat-icon>
+      <mat-icon *ngIf="uploadFile">cancel</mat-icon>
+    </button>
+
+    <button *ngIf="status==='data' && !uploadFile" mat-mini-fab isIconButton="true" isRoundButton="true" color="disabled" (click)="download()">
+      <mat-icon>cloud_download</mat-icon>
+    </button>
   </h2>
   <div [ngSwitch]="status" class="app-phone-list">
     <div *ngSwitchCase="'error'" class="app-phone-list__data_error">
-      {{error}}
+      Error while accessing backend
     </div>
     <mat-action-list *ngSwitchCase="'data'" class="app-phone-list-items">
       <mat-list-item *ngFor="let phone of phones" [routerLink]="['/edit', phone.name]">

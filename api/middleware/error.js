@@ -3,6 +3,7 @@ const statusFromMessage = message => {
         case 'not found':
             return 404;
         case 'record exists':
+        case 'bad request':
             return 400;
     }
 };

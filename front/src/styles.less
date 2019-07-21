@@ -12,6 +12,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   display: flex;
   align-items: center;
   &__title {
-    padding-left: 0.3em;
+    flex-grow: 1;
+  }
+  button {
+    margin-right: 0.5em;
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }

@@ -5,10 +5,10 @@
   </h2>
   <form #phoneForm="ngForm" *ngIf="record$ | async as record" (ngSubmit)="onSubmit(phoneForm)" class="app-phone-record__form" >
     <mat-form-field class="app-phone-record__form-field-full-width">
-      <input type="text" matInput placeholder="Name" [(ngModel)]="record.name" name="name" required  minlength="2">
+      <input type="text" matInput placeholder="Name" [(ngModel)]="record.name" name="name" required pattern="[ a-zA-Z0-9]+" minlength="2">
     </mat-form-field>
     <mat-form-field class="app-phone-record__form-field-full-width">
-      <input type="tel" matInput placeholder="Phone:" [(ngModel)]="record.phone" name="phone" required pattern="[+\-() A-Z0-9]+">
+      <input type="tel" matInput placeholder="Phone:" [(ngModel)]="record.phone" name="phone" required pattern="[+\-() A-Z0-9]+" minlength="4">
     </mat-form-field>
     <button type="submit" mat-stroked-button color="primary" [disabled]="!phoneForm.valid">Submit</button>
   </form>

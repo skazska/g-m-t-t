@@ -9,11 +9,17 @@ import {Observable} from "rxjs";
 
 export class CrudService {
 
+  // TODO implement config
   crudUrl = 'http://localhost:3000/phone-book';
 
   constructor(
     private crud: HttpClient
-  ) { }
+  ) {
+  }
+
+  get fileUrl() {
+    return this.crudUrl + '/file';
+  }
 
   list() :Observable<PhoneModel[]> {
     return <Observable<PhoneModel[]>>this.crud.get(this.crudUrl);

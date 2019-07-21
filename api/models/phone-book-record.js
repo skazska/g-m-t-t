@@ -84,6 +84,21 @@ class PBRCrud {
     delete (name) {
         return this._store.delete({name: name});
     }
+
+    /**
+     * merges phone array to storage
+     * @param {object[]}newPhones
+     * @return {Promise<void>}
+     */
+    async bulkUpdate (newPhones) {
+        // put replaces record in storage
+        // serial loop
+        // TODO implement parallel chunks processing
+        for (const newPhone of newPhones) {
+            await this._store.put({name: newPhone.name}, newPhone);
+        }
+    }
+
 }
 
 module.exports = PBRCrud;

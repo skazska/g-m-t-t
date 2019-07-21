@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { FileUploadModule } from 'ng2-file-upload';
+
 import { DependencyMaterialModule } from './material/material.module';
 import { AppComponent } from './app.component';
 
@@ -24,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     FormsModule,
     DependencyMaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

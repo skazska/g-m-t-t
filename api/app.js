@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const cors = require('koa-cors');
+const koaBody = require('koa-body');
 const convert = require('koa-convert');
 
 const err = require('./middleware/error');
@@ -7,7 +8,11 @@ const app = new Koa();
 const {routes, allowedMethods} = require('./middleware/routes');
 
 app.use(convert(cors({origin: '*'})));
+app.use(koaBody({ multipart: true }));
 
+app.use(err);
+
+// TODO implement authentication
 // https://github.com/koajs/jwt
 // var jwt = require('koa-jwt');
 // // Custom 401 handling if you don't want to expose koa-jwt errors to users
@@ -33,10 +38,6 @@ app.use(convert(cors({origin: '*'})));
 //
 // // Middleware below this line is only reached if JWT token is valid
 // app.use(jwt({ secret: 'shared-secret' }));
-
-app.use(err);
-
-// TODO instead of authentication
 app.use(async (ctx, next) => {
     ctx.state.user = 'shared';
     await next();
