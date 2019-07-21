@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import {PhoneListComponent} from "./phone-list/phone-list.component";
 import {PhoneRecordComponent} from "./phone-record/phone-record.component";
 
-
 const routes: Routes = [
   { path: 'add', component: PhoneRecordComponent },
   { path: 'edit/:name', component: PhoneRecordComponent },

@@ -1,5 +1,8 @@
 <div class="app-content">
-  <h2>Phone</h2>
+  <h2 class="app-header">
+    <button routerLink=".." mat-mini-fab isIconButton="true" isRoundButton="true"><mat-icon>chevron_left</mat-icon></button>
+    <span class="app-header__title">Phone</span>
+  </h2>
   <form #phoneForm="ngForm" *ngIf="record$ | async as record" (ngSubmit)="onSubmit(phoneForm)" class="app-phone-record__form" >
     <mat-form-field class="app-phone-record__form-field-full-width">
       <input type="text" matInput placeholder="Name" [(ngModel)]="record.name" name="name" required  minlength="2">

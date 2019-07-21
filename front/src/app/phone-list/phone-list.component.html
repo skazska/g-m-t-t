@@ -1,5 +1,8 @@
 <div class="app-content">
-  <h2>List <mat-progress-spinner *ngIf="loadingIndicator"></mat-progress-spinner></h2>
+  <h2 class="app-header">
+    <button routerLink="/add" mat-mini-fab isIconButton="true" isRoundButton="true"><mat-icon>add</mat-icon></button>
+    <span class="app-header__title">List</span>
+  </h2>
   <div [ngSwitch]="status" class="app-phone-list">
     <div *ngSwitchCase="'error'" class="app-phone-list__data_error">
       {{error}}

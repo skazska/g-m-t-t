@@ -104,6 +104,8 @@ class MemoryStorage extends Storage {
      */
     delete (condition) {
         let index = this._data.findIndex(item => {
+            if (!item) return false;
+
             return Object.keys(condition).every(key => {
                 return condition[key] === item[key];
             })
