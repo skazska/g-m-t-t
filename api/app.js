@@ -6,7 +6,7 @@ const err = require('./middleware/error');
 const app = new Koa();
 const {routes, allowedMethods} = require('./middleware/routes');
 
-app.use(convert(cors()));
+app.use(convert(cors({origin: '*'})));
 
 // https://github.com/koajs/jwt
 // var jwt = require('koa-jwt');
